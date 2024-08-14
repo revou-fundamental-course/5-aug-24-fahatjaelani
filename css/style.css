@@ -1,0 +1,153 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+.Container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex-wrap: wrap;
+}
+
+.Hasil, .Kalkulator {
+    padding: 20px;
+    width: 48%;
+    box-sizing: border-box;
+    flex: 1 1 48%; 
+}
+
+h2 {
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.Bmi-Hasil, .Bmi-info, .Risiko-kesehatan, .Download-btn, .Fitur, .Catatan {
+    margin-bottom: 20px;
+}
+
+.Bmi-Hasil p, .Bmi-info p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+h1 {
+    font-size: 30px;
+    color: #007bff;
+    margin: 0;
+}
+
+.Download-btn, .Konsultasi-btn, .Pendaftaran-btn, .Konsultasi-dokter-btn, .Pendaftaran-dokter-btn, .Kalkulator-btn, .Reset-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.Download-btn:hover, .Konsultasi-btn:hover, .Pendaftaran-btn:hover, .Konsultasi-dokter-btn:hover, .Pendaftaran-dokter-btn:hover, .Kalkulator-btn:hover, .Reset-btn:hover {
+    background-color: #0056b3;
+}
+
+.Formulir-Registrasi {
+    display: none;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.Formulir-Registrasi h2 {
+    margin-top: 0;
+}
+
+.Formulir-Registrasi input, .Formulir-Registrasi textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.Formulir-Registrasi button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.Formulir-Registrasi button:hover {
+    background-color: #0056b3;
+}
+
+.Radio-group {
+    display: flex;
+    align-items: center;
+}
+
+.Radio-group input {
+    margin-right: 10px;
+}
+
+
+input[type="number"], input[type="text"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.Fitur ol {
+    padding-left: 20px;
+}
+
+.Fitur li {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.Download-btn img {
+    width: 150px;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.Download-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .Hasil, .Kalkulator {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    
+    .Container {
+        flex-direction: column;
+    }
+    
+    .Download-btn img {
+        margin-bottom: 10px;
+    }
+}
