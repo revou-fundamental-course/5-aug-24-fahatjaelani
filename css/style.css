@@ -1,153 +1,285 @@
+/* Reset dasar */
+* {
+    margin: 0; /* Menghilangkan margin default pada semua elemen */
+    padding: 0; /* Menghilangkan padding default pada semua elemen */
+    box-sizing: border-box; /* Memastikan padding dan border termasuk dalam lebar elemen */
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f7f7f7;
-    color: #333;
-    margin: 0;
-    padding: 20px;
+    font-family: Arial, sans-serif; /* Mengatur font default untuk body */
+    background-color: #f7f7f7; /* Memberikan latar belakang abu-abu muda pada halaman */
+    color: #333; /* Mengatur warna teks */
+    margin: 0; /* Menghilangkan margin default */
+    padding: 20px; /* Memberikan padding pada body */
 }
 
-.Container {
-    display: flex;
-    justify-content: space-between;
-    max-width: 1200px;
-    margin: auto;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    flex-wrap: wrap;
+.container {
+    display: flex; /* Menggunakan Flexbox untuk tata letak fleksibel */
+    flex-wrap: wrap; /* Mengizinkan elemen untuk membungkus ke baris berikutnya */
+    gap: 20px; /* Memberikan jarak antar elemen dalam container */
+    justify-content: center; /* Menyusun elemen di tengah secara horizontal */
+    max-width: 1200px; /* Membatasi lebar maksimal container */
+    margin: auto; /* Mengatur margin otomatis untuk center alignment */
+    background-color: white; /* Memberikan latar belakang putih pada container */
+    border-radius: 8px; /* Membuat sudut container membulat */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Menambahkan bayangan lembut */
+    padding: 20px; /* Memberikan padding di dalam container */
 }
 
-.Hasil, .Kalkulator {
-    padding: 20px;
-    width: 48%;
-    box-sizing: border-box;
-    flex: 1 1 48%; 
+.hasil, .kalkulator {
+    padding: 20px; /* Memberikan padding di dalam elemen hasil dan kalkulator */
+    flex: 1 1 48%; /* Membuat elemen fleksibel dan menetapkan lebar dasar 48% */
+    max-width: 48%; /* Membatasi lebar maksimum elemen */
+    box-sizing: border-box; /* Memastikan padding termasuk dalam lebar elemen */
 }
 
 h2 {
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-    font-size: 24px;
+    padding-bottom: 10px; /* Memberikan jarak bawah pada heading */
+    margin-bottom: 20px; /* Memberikan margin bawah pada heading */
+    font-size: 24px; /* Mengatur ukuran font heading */
 }
 
-.Bmi-Hasil, .Bmi-info, .Risiko-kesehatan, .Download-btn, .Fitur, .Catatan {
-    margin-bottom: 20px;
+.bmi-hasil, .bmi-info, .risiko-kesehatan, .fitur, .catatan {
+    margin-bottom: 20px; /* Memberikan margin bawah pada elemen-elemen ini */
 }
 
-.Bmi-Hasil p, .Bmi-info p {
-    margin: 10px 0;
-    font-size: 16px;
+.bmi-hasil p, .bmi-info p {
+    margin: 10px 0; /* Memberikan margin atas dan bawah pada paragraf */
+    font-size: 16px; /* Mengatur ukuran font paragraf */
+}
+
+#gambar-kosong-hasil, #gambar-kosong-info, #gambar-kosong-risiko {
+    max-width: 100%; /* Memastikan gambar tidak melampaui lebar elemen induk */
+    height: auto; /* Memastikan tinggi gambar otomatis proporsional */
+    display: block; /* Menampilkan gambar sebagai blok */
+    margin: 0 auto; /* Mengatur margin horizontal otomatis untuk center alignment */
 }
 
 h1 {
-    font-size: 30px;
-    color: #007bff;
-    margin: 0;
+    font-size: 30px; /* Mengatur ukuran font heading utama */
+    color: #007bff; /* Memberikan warna biru pada heading */
+    margin: 0; /* Menghilangkan margin default pada heading */
 }
 
-.Download-btn, .Konsultasi-btn, .Pendaftaran-btn, .Konsultasi-dokter-btn, .Pendaftaran-dokter-btn, .Kalkulator-btn, .Reset-btn {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-top: 10px;
+button, .download-btn, .konsultasi-btn, .pendaftaran-btn, .konsultasi-dokter-btn, .pendaftaran-dokter-btn, .kalkulator-btn, .reset-btn {
+    background-color: #007bff; /* Memberikan latar belakang biru pada tombol */
+    color: white; /* Mengatur warna teks tombol menjadi putih */
+    border: none; /* Menghilangkan border default tombol */
+    padding: 10px 20px; /* Memberikan padding dalam tombol */
+    font-size: 16px; /* Mengatur ukuran font tombol */
+    cursor: pointer; /* Mengubah kursor menjadi pointer saat berada di atas tombol */
+    border-radius: 5px; /* Membuat sudut tombol membulat */
+    margin-top: 10px; /* Memberikan margin atas pada tombol */
+    display: inline-flex; /* Mengatur tombol untuk menggunakan Flexbox inline */
+    align-items: center; /* Menyusun item di dalam tombol secara vertikal di tengah */
 }
 
-.Download-btn:hover, .Konsultasi-btn:hover, .Pendaftaran-btn:hover, .Konsultasi-dokter-btn:hover, .Pendaftaran-dokter-btn:hover, .Kalkulator-btn:hover, .Reset-btn:hover {
-    background-color: #0056b3;
+button:hover, .download-btn:hover, .konsultasi-btn:hover, .pendaftaran-btn:hover, .konsultasi-dokter-btn:hover, .pendaftaran-dokter-btn:hover, .kalkulator-btn:hover, .reset-btn:hover {
+    background-color: #0056b3; /* Mengubah warna latar belakang tombol saat hover */
 }
 
-.Formulir-Registrasi {
-    display: none;
-    background-color: #ffffff;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.formulir-registrasi {
+    display: none; /* Menyembunyikan formulir registrasi secara default */
+    background-color: #ffffff; /* Memberikan latar belakang putih pada formulir */
+    border-radius: 8px; /* Membuat sudut formulir membulat */
+    padding: 20px; /* Memberikan padding di dalam formulir */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Menambahkan bayangan lembut */
+    position: fixed; /* Menetapkan posisi formulir tetap pada layar */
+    top: 50%; /* Menempatkan formulir di tengah vertikal layar */
+    left: 50%; /* Menempatkan formulir di tengah horizontal layar */
+    transform: translate(-50%, -50%); /* Menggeser formulir ke tengah dengan transformasi */
+    width: 80%; /* Menetapkan lebar formulir menjadi 80% dari elemen induk */
+    max-width: 500px; /* Membatasi lebar maksimum formulir */
+    z-index: 1000; /* Menetapkan z-index untuk menampilkan formulir di atas elemen lain */
 }
 
-.Formulir-Registrasi h2 {
-    margin-top: 0;
+.close-btn {
+    position: absolute; /* Menetapkan posisi tombol tutup absolut dalam formulir */
+    top: 10px; /* Menempatkan tombol tutup 10px dari atas */
+    right: 10px; /* Menempatkan tombol tutup 10px dari kanan */
+    background: none; /* Menghilangkan latar belakang default tombol */
+    border: none; /* Menghilangkan border default tombol */
+    font-size: 20px; /* Mengatur ukuran font tombol tutup */
+    color: #aaa; /* Mengatur warna teks tombol tutup */
+    cursor: pointer; /* Mengubah kursor menjadi pointer saat berada di atas tombol */
 }
 
-.Formulir-Registrasi input, .Formulir-Registrasi textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+.close-btn:hover {
+    color: #000; /* Mengubah warna teks tombol tutup saat hover */
 }
 
-.Formulir-Registrasi button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-top: 10px;
+.alert {
+    background-color: #f44336; /* Memberikan latar belakang merah pada alert */
+    color: white; /* Mengatur warna teks alert menjadi putih */
+    padding: 20px; /* Memberikan padding di dalam alert */
+    position: fixed; /* Menetapkan posisi alert tetap pada layar */
+    top: 20px; /* Menempatkan alert 20px dari atas */
+    right: 20px; /* Menempatkan alert 20px dari kanan */
+    z-index: 1000; /* Menetapkan z-index untuk menampilkan alert di atas elemen lain */
+    border-radius: 5px; /* Membuat sudut alert membulat */
+    width: 300px; /* Menetapkan lebar alert menjadi 300px */
 }
 
-.Formulir-Registrasi button:hover {
-    background-color: #0056b3;
+.closebtn {
+    margin-left: 15px; /* Memberikan margin kiri pada tombol tutup di dalam alert */
+    color: white; /* Mengatur warna teks tombol tutup menjadi putih */
+    font-weight: bold; /* Mengatur font-weight tombol tutup menjadi bold */
+    float: right; /* Mengapungkan tombol tutup ke kanan */
+    font-size: 22px; /* Mengatur ukuran font tombol tutup */
+    line-height: 20px; /* Mengatur tinggi baris tombol tutup */
+    cursor: pointer; /* Mengubah kursor menjadi pointer saat berada di atas tombol */
 }
 
-.Radio-group {
-    display: flex;
-    align-items: center;
+.closebtn:hover {
+    color: black; /* Mengubah warna teks tombol tutup saat hover */
 }
 
-.Radio-group input {
-    margin-right: 10px;
+.formulir-registrasi h2 {
+    margin-top: 0; /* Menghilangkan margin atas pada heading di dalam formulir */
 }
 
-
-input[type="number"], input[type="text"] {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
+.formulir-registrasi input, .formulir-registrasi textarea {
+    width: 100%; /* Menetapkan lebar input dan textarea menjadi 100% dari elemen induk */
+    padding: 10px; /* Memberikan padding di dalam input dan textarea */
+    margin-top: 5px; /* Memberikan margin atas pada input dan textarea */
+    border: 1px solid #ccc; /* Memberikan border abu-abu pada input dan textarea */
+    border-radius: 4px; /* Membuat sudut input dan textarea membulat */
+    box-sizing: border-box; /* Memastikan padding termasuk dalam lebar elemen */
 }
 
-.Fitur ol {
-    padding-left: 20px;
+.formulir-registrasi button {
+    background-color: #007bff; /* Memberikan latar belakang biru pada tombol di dalam formulir */
+    color: white; /* Mengatur warna teks tombol menjadi putih */
+    border: none; /* Menghilangkan border default tombol */
+    padding: 10px 20px; /* Memberikan padding di dalam tombol */
+    font-size: 16px; /* Mengatur ukuran font tombol */
+    cursor: pointer; /* Mengubah kursor menjadi pointer saat berada di atas tombol */
+    border-radius: 5px; /* Membuat sudut tombol membulat */
+    margin-top: 10px; /* Memberikan margin atas pada tombol */
 }
 
-.Fitur li {
-    margin-bottom: 10px;
-    font-size: 16px;
+.formulir-registrasi button:hover {
+    background-color: #0056b3; /* Mengubah warna latar belakang tombol saat hover */
 }
 
-.Download-btn img {
-    width: 150px;
-    margin-right: 10px;
-    margin-top: 10px;
+.radio-group {
+    display: flex; /* Menggunakan Flexbox untuk tata letak grup radio button */
+    align-items: center; /* Menyusun item di dalam grup secara vertikal di tengah */
 }
 
-.Download-btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
+.radio-group input {
+    margin-right: 10px; /* Memberikan margin kanan pada input radio */
 }
 
+.form-group {
+    margin-bottom: 15px; /* Memberikan margin bawah pada setiap grup formulir */
+}
+
+.form-group label {
+    display: block; /* Menetapkan label sebagai blok untuk memudahkan tata letak */
+    font-size: 16px; /* Mengatur ukuran font label */
+    margin-bottom: 5px; /* Memberikan margin bawah pada label */
+}
+
+.input-error {
+    border-color: red; /* Mengubah warna border menjadi merah jika ada error */
+}
+
+.error-message {
+    color: red; /* Mengatur warna teks pesan error menjadi merah */
+    font-size: 12px; /* Mengatur ukuran font pesan error */
+    display: block; /* Menampilkan pesan error sebagai blok */
+}
+
+.form-group input[type="number"], 
+.form-group input[type="text"], 
+.form-group textarea {
+    width: 100%; /* Menetapkan lebar input dan textarea menjadi 100% dari elemen induk */
+    padding: 10px; /* Memberikan padding di dalam input dan textarea */
+    border: 1px solid #ccc; /* Memberikan border abu-abu pada input dan textarea */
+    border-radius: 4px; /* Membuat sudut input dan textarea membulat */
+    box-sizing: border-box; /* Memastikan padding termasuk dalam lebar elemen */
+}
+
+.fitur ol {
+    padding-left: 20px; /* Memberikan padding kiri pada list terurut di dalam fitur */
+}
+
+.fitur li {
+    margin-bottom: 10px; /* Memberikan margin bawah pada setiap item dalam list fitur */
+    font-size: 16px; /* Mengatur ukuran font item list */
+}
+
+.download-btn img {
+    width: 100px; /* Menetapkan lebar gambar dalam tombol unduh */
+    margin-right: 10px; /* Memberikan margin kanan pada gambar */
+}
+
+.download-btn {
+    display: flex; /* Menggunakan Flexbox untuk tata letak tombol unduh */
+    justify-content: center; /* Menyusun item di dalam tombol secara horizontal di tengah */
+    align-items: center; /* Menyusun item di dalam tombol secara vertikal di tengah */
+    flex-wrap: wrap; /* Mengizinkan item dalam tombol untuk membungkus ke baris berikutnya */
+}
+
+footer {
+    text-align: center; /* Menyusun teks footer di tengah */
+    margin-top: 20px; /* Memberikan margin atas pada footer */
+    width: 100%; /* Menetapkan lebar footer menjadi 100% dari elemen induk */
+    box-sizing: border-box; /* Memastikan padding termasuk dalam lebar elemen */
+}
+
+/* Media Queries untuk tampilan lebih kecil */
 @media (max-width: 768px) {
-    .Hasil, .Kalkulator {
-        width: 100%;
-        margin-bottom: 20px;
+    .hasil, .kalkulator {
+        flex: 1 1 100%; /* Mengatur elemen hasil dan kalkulator untuk menggunakan 100% lebar pada tampilan kecil */
+        max-width: 100%; /* Membatasi lebar maksimum elemen menjadi 100% pada tampilan kecil */
     }
     
-    .Container {
-        flex-direction: column;
+    .container {
+        flex-direction: column; /* Menyusun elemen dalam container secara kolom pada tampilan kecil */
+    }
+
+    .form-group {
+        margin-bottom: 20px; /* Memberikan margin bawah yang lebih besar pada grup formulir */
     }
     
-    .Download-btn img {
-        margin-bottom: 10px;
+    .form-group label {
+        margin-bottom: 5px; /* Menjaga margin bawah pada label */
+    }
+
+    .download-btn img {
+        margin-bottom: 10px; /* Memberikan margin bawah pada gambar di tombol unduh */
+    }
+
+    #gambar-kosong-hasil, #gambar-kosong-info, #gambar-kosong-risiko {
+        width: 100%; /* Menetapkan lebar gambar menjadi 100% pada tampilan kecil */
+    }
+}
+
+/* Media Queries untuk tampilan smartphone */
+@media (max-width: 576px) {
+    .container {
+        padding: 10px; /* Mengurangi padding container pada tampilan smartphone */
+    }
+    
+    .hasil, .kalkulator {
+        padding: 10px; /* Mengurangi padding elemen hasil dan kalkulator pada tampilan smartphone */
+    }
+
+    .form-group input[type="number"], 
+    .form-group input[type="text"], 
+    .form-group textarea {
+        padding: 8px; /* Mengurangi padding input dan textarea pada tampilan smartphone */
+        margin-bottom: 10px; /* Memberikan margin bawah pada input dan textarea */
+    }
+
+    .download-btn, .konsultasi-btn, .pendaftaran-btn, .konsultasi-dokter-btn, .pendaftaran-dokter-btn, .kalkulator-btn, .reset-btn {
+        padding: 8px 16px; /* Mengurangi padding tombol pada tampilan smartphone */
+        font-size: 14px; /* Mengurangi ukuran font tombol pada tampilan smartphone */
+    }
+
+    #gambar-kosong-hasil, #gambar-kosong-info, #gambar-kosong-risiko {
+        width: 100%; /* Menetapkan lebar gambar menjadi 100% pada tampilan smartphone */
     }
 }

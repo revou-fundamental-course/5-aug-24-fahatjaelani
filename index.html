@@ -1,75 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator BMI</title>
-    <link rel="stylesheet" href="./css/style.css">
+    <meta charset="UTF-8"> <!-- Menentukan pengkodean karakter sebagai UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Mengatur viewport untuk responsif di perangkat mobile -->
+    <title>Kalkulator BMI</title> <!-- Judul halaman yang tampil di tab browser -->
+    <link rel="stylesheet" href="css/style.css"> <!-- Menghubungkan file CSS eksternal untuk styling -->
 </head>
 <body>
-    <div class="Container">
-        <div class="Hasil">
-            <section id="HasilSection">
-                <h2 class="HasilBmi">Hasil BMI</h2>
-                <div class="Bmi-Hasil">
-                    <img id="GambarKosongHasil" src="./assets/Gambar Kosong.png" alt="Gambar Kosong">
-                    <p id="HasilStatus"></p>
-                    <h1 id="HasilBmi"></h1>
-                    <p id="JenisKelaminHasil"></p>
-                    <p id="HasilUsia"></p>
-                    <button class="Download-btn">Download Hasil BMI</button>
-                </div>
-                <div class="Bmi-info">
-                    <img id="GambarKosongInfo" src="./assets/Gambar Kosong.png" alt="Gambar Kosong">
-                    <h2 id="BmiInfoKategori"></h2>
-                    <p id="BmiInfo"></p>
-                    <button id="showAhliGiziForm" class="Konsultasi-btn">Konsultasi Ahli Gizi Via WhatsApp</button>
-                    <button class="Pendaftaran-btn">Registrasi Online Ahli Gizi</button>
-                </div>
-                <div class="Risiko-kesehatan" id="RisikoKesehatanSection">
-                    <h3 id="KategoriRisikoKesehatan"></h3>
-                    <ul id="RisikoPenyakitList">
-                        <img id="GambarKosongRisiko" src="./assets/Gambar Kosong.png" alt="Gambar Kosong">
-                        <!-- Risiko kesehatan akan diisi di sini -->
-                    </ul>  
-                    <button id="showDokterForm" class="Konsultasi-dokter-btn">Konsultasi Dokter Via WhatsApp</button>
-                    <button class="Pendaftaran-dokter-btn">Registrasi Online Sekarang</button>
-                </div>
-            </section>                         
-            <div class="Download-app">
-                <h4>Download Aplikasi</h4>
-                <img src="google-play-badge.png" alt="Google Play">
-                <img src="app-store-badge.png" alt="App Store">
-            </div>
+    <div class="container"> <!-- Kontainer utama untuk membungkus seluruh konten -->
+        <!-- Alert Box -->
+        <div id="alert-box" class="alert" style="display: none;"> <!-- Kotak peringatan yang disembunyikan secara default -->
+            <span class="closebtn">&times;</span> <!-- Tombol untuk menutup alert box -->
+            <p id="alert-message">Pesan akan ditampilkan di sini.</p> <!-- Tempat pesan akan ditampilkan -->
         </div>
 
-        <div class="Kalkulator">
+        <div class="hasil"> <!-- Bagian untuk menampilkan hasil BMI -->
+            <section id="hasil-section">
+                <h2 class="hasil-bmi">Hasil BMI</h2> <!-- Judul bagian hasil BMI -->
+                <div class="bmi-hasil">
+                    <img id="gambar-kosong-hasil" src="assets/Gambar Kosong.png" alt="Gambar Kosong"> <!-- Gambar placeholder -->
+                    <p id="hasil-status"></p> <!-- Tempat untuk menampilkan status BMI -->
+                    <h1 id="hasil-bmi"></h1> <!-- Tempat untuk menampilkan hasil BMI numerik -->
+                    <p id="jenis-kelamin-hasil"></p> <!-- Tempat untuk menampilkan jenis kelamin pengguna -->
+                    <p id="hasil-usia"></p> <!-- Tempat untuk menampilkan usia pengguna -->
+                    <button class="download-btn" id="download-btn">Download Hasil BMI</button> <!-- Tombol untuk mengunduh hasil BMI -->
+                </div>
+                <div class="bmi-info">
+                    <img id="gambar-kosong-info" src="assets/Gambar Kosong.png" alt="Gambar Kosong"> <!-- Gambar placeholder -->
+                    <h2 id="bmi-info-kategori"></h2> <!-- Kategori BMI -->
+                    <p id="bmi-info"></p> <!-- Informasi tambahan mengenai BMI -->
+                    <button class="konsultasi-btn">Konsultasi Ahli Gizi Via WhatsApp</button> <!-- Tombol untuk konsultasi via WhatsApp -->
+                    <button id="show-ahli-gizi-form" class="pendaftaran-btn">Registrasi Online Ahli Gizi</button> <!-- Tombol untuk membuka form registrasi ahli gizi -->
+                </div>
+                <div class="risiko-kesehatan" id="risiko-kesehatan-section">
+                    <h3 id="kategori-risiko-kesehatan"></h3> <!-- Kategori risiko kesehatan -->
+                    <ul id="risiko-penyakit-list">
+                        <img id="gambar-kosong-risiko" src="assets/Gambar Kosong.png" alt="Gambar Kosong"> <!-- Gambar placeholder -->
+                    </ul>
+                    <button class="konsultasi-dokter-btn">Konsultasi Dokter Via WhatsApp</button> <!-- Tombol untuk konsultasi dokter via WhatsApp -->
+                    <button id="show-dokter-form" class="pendaftaran-dokter-btn">Registrasi Online Sekarang</button> <!-- Tombol untuk membuka form registrasi dokter -->
+                </div>
+            </section>
+        </div>
+
+        <div class="kalkulator"> <!-- Bagian kalkulator BMI -->
             <h2>Kalkulator BMI</h2>
-            <form id="BmiForm">
-                <label for="JenisKelamin">Jenis Kelamin</label>
-                <div class="Radio-group">
-                    <input type="radio" name="JenisKelamin" id="Laki-Laki" value="Laki-Laki" required>
-                    <label for="Laki-Laki">Laki-Laki</label>
-                    <input type="radio" name="JenisKelamin" id="Perempuan" value="Perempuan" required>
-                    <label for="Perempuan">Perempuan</label>
+            <form id="bmi-form"> <!-- Formulir untuk input data pengguna -->
+                <div class="form-group">
+                    <label for="jenis-kelamin-laki-laki">Jenis Kelamin</label>
+                    <div class="radio-group">
+                        <input type="radio" name="JenisKelamin" id="jenis-kelamin-laki-laki" value="Laki-Laki" required> <!-- Input radio untuk jenis kelamin laki-laki -->
+                        <label for="jenis-kelamin-laki-laki">Laki-Laki</label>
+                        <input type="radio" name="JenisKelamin" id="jenis-kelamin-perempuan" value="Perempuan" required> <!-- Input radio untuk jenis kelamin perempuan -->
+                        <label for="jenis-kelamin-perempuan">Perempuan</label>
+                    </div>
                 </div>
-                <div>
-                    <label for="BeratBadan">Berat Badan (kg)</label>
-                    <input type="number" id="BeratBadan" placeholder="Masukkan berat badan Anda" required>
+                <div class="form-group">
+                    <label for="berat-badan">Berat Badan (kg)</label>
+                    <input type="number" id="berat-badan" placeholder="Masukkan berat badan Anda" min="0" step="0.1" required> <!-- Input untuk berat badan -->
+                    <small class="error-message" id="error-berat-badan"></small> <!-- Tempat menampilkan pesan error untuk berat badan -->
                 </div>
-                <div>
+                <div class="form-group">
                     <label for="usia">Usia (tahun)</label>
-                    <input type="number" id="usia" placeholder="Masukkan Usia Anda" required>
+                    <input type="number" id="usia" placeholder="Masukkan Usia Anda" min="0" required> <!-- Input untuk usia -->
+                    <small class="error-message" id="error-usia"></small> <!-- Tempat menampilkan pesan error untuk usia -->
                 </div>
-                <div>
+                <div class="form-group">
                     <label for="tinggi">Tinggi Badan (cm)</label>
-                    <input type="number" id="tinggi" placeholder="Masukkan tinggi badan Anda" required>
+                    <input type="number" id="tinggi" placeholder="Masukkan tinggi badan Anda" min="0" required> <!-- Input untuk tinggi badan -->
+                    <small class="error-message" id="error-tinggi"></small> <!-- Tempat menampilkan pesan error untuk tinggi badan -->
                 </div>
-                <button type="submit" class="Kalkulator-btn">Hitung BMI</button>
-                <button type="button" class="Reset-btn">Reset</button>
-            </form>
-            
-            <div class="Fitur">
+                <button type="submit" class="kalkulator-btn">Hitung BMI</button> <!-- Tombol untuk menghitung BMI -->
+                <button type="button" id="reset-btn" class="reset-btn">Reset</button> <!-- Tombol untuk mereset form -->
+            </form>             
+            <div class="fitur">
                 <h3>Keunggulan fitur</h3>
                 <ol>
                     <li>Menghitung berat badan</li>
@@ -77,61 +81,78 @@
                     <li>Mempersiapkan program penurunan berat badan</li>
                 </ol>
             </div>
-            <div class="Catatan">
-                <p>Kalkulator ini hanya boleh digunakan oleh orang dewasa (wanita hamil atau menyusui tidak boleh menggunakan pembacaan BMI ini) dan tidak ada tindakan yang harus diambil berdasarkan nilainya selain berkonsultasi dengan dokter yang memenuhi syarat seperti dokter.</p>
-            </div>
+            <div class="catatan">
+                <h3>Peringatan Penting</h3>
+                <p>Kalkulator BMI ini dirancang khusus untuk orang dewasa dan tidak diperuntukkan bagi wanita hamil atau menyusui. Pastikan Anda berkonsultasi dengan ahli gizi atau dokter sebelum membuat keputusan terkait kesehatan berdasarkan hasil kalkulator ini.</p>
+                <p>Hasil kalkulator ini hanya sebagai acuan dan tidak menggantikan evaluasi medis profesional. BMI bukan satu-satunya indikator kesehatan, dan berbagai faktor seperti massa otot, distribusi lemak, dan kondisi kesehatan secara keseluruhan harus dipertimbangkan.</p>
+                <p>Jika Anda memiliki kondisi kesehatan tertentu atau kekhawatiran mengenai berat badan Anda, sebaiknya konsultasikan dengan tenaga medis profesional untuk mendapatkan penilaian dan saran yang tepat.</p>
+            </div>            
         </div>
 
-        <!-- Formulir Registrasi Ahli Gizi -->
-        <div id="AhliGiziForm" class="Formulir-Registrasi">
+        <!-- Form Registrasi Ahli Gizi -->
+        <div id="ahli-gizi-form" class="formulir-registrasi">
+            <button type="button" class="close-btn" id="close-ahli-gizi-form">&times;</button> <!-- Tombol untuk menutup form registrasi ahli gizi -->
             <h2>Registrasi Online Ahli Gizi</h2>
-            <form id="RegistrasiAhliGiziForm">
+            <form id="registrasi-ahli-gizi-form"> <!-- Formulir untuk registrasi ahli gizi -->
                 <div>
                     <label for="nama-ahli-gizi">Nama Lengkap</label>
-                    <input type="text" id="nama-ahli-gizi" name="nama-ahli-gizi" placeholder="Masukkan nama lengkap" required>
+                    <input type="text" id="nama-ahli-gizi" name="nama-ahli-gizi" placeholder="Masukkan nama lengkap" required> <!-- Input untuk nama lengkap ahli gizi -->
+                    <small class="error-message" id="error-nama-ahli-gizi"></small> <!-- Tempat menampilkan pesan error untuk nama -->
                 </div>
                 <div>
                     <label for="email-ahli-gizi">Email</label>
-                    <input type="email" id="email-ahli-gizi" name="email-ahli-gizi" placeholder="Masukkan email" required>
+                    <input type="email" id="email-ahli-gizi" name="email-ahli-gizi" placeholder="Masukkan email" required> <!-- Input untuk email ahli gizi -->
+                    <small class="error-message" id="error-email-ahli-gizi"></small> <!-- Tempat menampilkan pesan error untuk email -->
                 </div>
                 <div>
                     <label for="telepon-ahli-gizi">Nomor Telepon</label>
-                    <input type="tel" id="telepon-ahli-gizi" name="telepon-ahli-gizi" placeholder="Masukkan nomor telepon" required>
+                    <input type="tel" id="telepon-ahli-gizi" name="telepon-ahli-gizi" placeholder="Masukkan nomor telepon" pattern="[0-9]{10,13}" required> <!-- Input untuk nomor telepon ahli gizi dengan pola validasi -->
+                    <small class="error-message" id="error-telepon-ahli-gizi"></small> <!-- Tempat menampilkan pesan error untuk nomor telepon -->
                 </div>
                 <div>
                     <label for="pesan-ahli-gizi">Pesan</label>
-                    <textarea id="pesan-ahli-gizi" name="pesan-ahli-gizi" placeholder="Masukkan pesan atau kebutuhan khusus" required></textarea>
+                    <textarea id="pesan-ahli-gizi" name="pesan-ahli-gizi" placeholder="Masukkan pesan atau kebutuhan khusus" required></textarea> <!-- Input untuk pesan dari ahli gizi -->
+                    <small class="error-message" id="error-pesan-ahli-gizi"></small> <!-- Tempat menampilkan pesan error untuk pesan -->
                 </div>
-                <button type="submit">Kirim Registrasi</button>
+                <button type="submit" id="kirim-registrasi-ahli-gizi">Kirim Registrasi</button> <!-- Tombol untuk mengirim registrasi -->
             </form>
         </div>
-
-        <!-- Formulir Registrasi Konsultasi Dokter -->
-        <div id="DokterForm" class="Formulir-Registrasi">
+        
+        <!-- Form Registrasi Dokter -->
+        <div id="dokter-form" class="formulir-registrasi">
+            <button type="button" class="close-btn" id="close-dokter-form">&times;</button> <!-- Tombol untuk menutup form registrasi dokter -->
             <h2>Registrasi Konsultasi Dokter</h2>
-            <form id="RegistrasiDokterForm">
+            <form id="registrasi-dokter-form"> <!-- Formulir untuk registrasi dokter -->
                 <div>
                     <label for="nama-dokter">Nama Lengkap</label>
-                    <input type="text" id="nama-dokter" name="nama-dokter" placeholder="Masukkan nama lengkap" required>
+                    <input type="text" id="nama-dokter" name="nama-dokter" placeholder="Masukkan nama lengkap" required> <!-- Input untuk nama lengkap dokter -->
+                    <small class="error-message" id="error-nama-dokter"></small> <!-- Tempat menampilkan pesan error untuk nama -->
                 </div>
                 <div>
                     <label for="email-dokter">Email</label>
-                    <input type="email" id="email-dokter" name="email-dokter" placeholder="Masukkan email" required>
+                    <input type="email" id="email-dokter" name="email-dokter" placeholder="Masukkan email" required> <!-- Input untuk email dokter -->
+                    <small class="error-message" id="error-email-dokter"></small> <!-- Tempat menampilkan pesan error untuk email -->
                 </div>
                 <div>
                     <label for="telepon-dokter">Nomor Telepon</label>
-                    <input type="tel" id="telepon-dokter" name="telepon-dokter" placeholder="Masukkan nomor telepon" required>
+                    <input type="tel" id="telepon-dokter" name="telepon-dokter" placeholder="Masukkan nomor telepon" pattern="[0-9]{10,13}" required> <!-- Input untuk nomor telepon dokter dengan pola validasi -->
+                    <small class="error-message" id="error-telepon-dokter"></small> <!-- Tempat menampilkan pesan error untuk nomor telepon -->
                 </div>
                 <div>
                     <label for="pesan-dokter">Pesan</label>
-                    <textarea id="pesan-dokter" name="pesan-dokter" placeholder="Masukkan pesan atau kebutuhan khusus" required></textarea>
+                    <textarea id="pesan-dokter" name="pesan-dokter" placeholder="Masukkan pesan atau kebutuhan khusus" required></textarea> <!-- Input untuk pesan dari dokter -->
+                    <small class="error-message" id="error-pesan-dokter"></small> <!-- Tempat menampilkan pesan error untuk pesan -->
                 </div>
-                <button type="submit">Kirim Registrasi</button>
+                <button type="submit" id="kirim-registrasi-dokter">Kirim Registrasi</button> <!-- Tombol untuk mengirim registrasi -->
             </form>
         </div>
+
+        <footer>
+            <p>&copy; 2024 Mini Project RevoU Fahat Jaelani.</p> <!-- Informasi hak cipta -->
+        </footer>
     </div>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="js/script.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script><!-- Library jsPDF untuk membuat PDF -->
+    <script src="js/script.js"></script> <!-- Menghubungkan file JavaScript eksternal -->
 </body>
 </html>

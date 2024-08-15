@@ -1,274 +1,369 @@
+// Tunggu hingga seluruh dokumen HTML dimuat sebelum menjalankan kode di dalamnya
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('BmiForm');
-    const HasilSection = document.getElementById('HasilSection');
-    const JenisKelaminHasil = document.getElementById('JenisKelaminHasil');
-    const HasilUsia = document.getElementById('HasilUsia');
-    const HasilBmi = document.getElementById('HasilBmi');
-    const HasilStatus = document.getElementById('HasilStatus');
-    const BmiInfoKategori = document.getElementById('BmiInfoKategori');
-    const BmiInfo = document.getElementById('BmiInfo');
-    const RisikoKesehatanSection = document.getElementById('RisikoKesehatanSection');
-    const KategoriRisikoKesehatan = document.getElementById('KategoriRisikoKesehatan');
-    const RisikoPenyakitList = document.getElementById('RisikoPenyakitList');
-    const downloadBtn = document.querySelector('.Download-btn');
-    const konsultasiDokterBtn = document.querySelector('.Konsultasi-dokter-btn');
-    const konsultasiAhliGiziBtn = document.querySelector('.Konsultasi-btn');
-    const ResetButton = document.querySelector('.Reset-btn');
-    
-    const ahliGiziForm = document.getElementById('AhliGiziForm');
-    const dokterForm = document.getElementById('DokterForm');
-    
-    const showAhliGiziForm = document.getElementById('showAhliGiziForm');
-    const showDokterForm = document.getElementById('showDokterForm');
+    // Mendapatkan referensi ke elemen-elemen DOM yang diperlukan
+    const formulir = document.getElementById('bmi-form'); // Formulir BMI
+    const bagianHasil = document.getElementById('hasil-section'); // Bagian untuk menampilkan hasil BMI
+    const hasilJenisKelamin = document.getElementById('jenis-kelamin-hasil'); // Hasil jenis kelamin
+    const hasilUsia = document.getElementById('hasil-usia'); // Hasil usia
+    const hasilBMI = document.getElementById('hasil-bmi'); // Hasil BMI
+    const hasilStatus = document.getElementById('hasil-status'); // Status kategori BMI
+    const kategoriInfoBMI = document.getElementById('bmi-info-kategori'); // Kategori info BMI
+    const infoBMI = document.getElementById('bmi-info'); // Deskripsi info BMI
+    const bagianRisikoKesehatan = document.getElementById('risiko-kesehatan-section'); // Bagian risiko kesehatan
+    const kategoriRisikoKesehatan = document.getElementById('kategori-risiko-kesehatan'); // Kategori risiko kesehatan
+    const risikoPenyakitList = document.getElementById('risiko-penyakit-list'); // Daftar penyakit terkait risiko
+    const alertBox = document.getElementById('alert-box'); // Kotak alert untuk pesan
+    const closeBtns = document.querySelectorAll('.close-btn'); // Tombol-tombol penutup alert
+    const ahliGiziForm = document.getElementById('ahli-gizi-form'); // Formulir pendaftaran ahli gizi
+    const dokterForm = document.getElementById('dokter-form'); // Formulir pendaftaran dokter
+    const kirimRegistrasiAhliGiziBtn = document.getElementById('kirim-registrasi-ahli-gizi'); // Tombol kirim registrasi ahli gizi
+    const kirimRegistrasiDokterBtn = document.getElementById('kirim-registrasi-dokter'); // Tombol kirim registrasi dokter
+    const gambarKosongHasil = document.getElementById('gambar-kosong-hasil'); // Gambar kosong untuk hasil
+    const gambarKosongInfo = document.getElementById('gambar-kosong-info'); // Gambar kosong untuk info BMI
+    const gambarKosongRisiko = document.getElementById('gambar-kosong-risiko'); // Gambar kosong untuk risiko kesehatan
 
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
+    // Menampilkan pesan alert sementara kepada pengguna
+    function showAlert(message, duration = 1000) {
+        const alertMessage = document.getElementById('alert-message');
+        if (alertMessage) {
+            alertMessage.textContent = message; // Set pesan alert
+            alertBox.style.display = 'block'; // Tampilkan kotak alert
+            setTimeout(() => {
+                alertBox.style.display = 'none'; // Sembunyikan kotak alert setelah durasi
+            }, duration);
+        }
+    }
 
-        const JenisKelamin = document.querySelector('input[name="JenisKelamin"]:checked').value;
-        const berat = parseFloat(document.getElementById('BeratBadan').value);
-        const tinggi = parseFloat(document.getElementById('tinggi').value) / 100;
+    // Validasi formulir dengan memeriksa input yang diperlukan
+    function validateForm(form) {
+        let valid = true;
+        const inputs = form.querySelectorAll('input[required], textarea[required]');
+        
+        inputs.forEach(input => {
+            const errorMessage = document.getElementById(`error-${input.name}`); // Ambil elemen error message
+            const name = input.name;
+
+            // Periksa jika input kosong
+            if (!input.value.trim()) {
+                valid = false;
+                if (errorMessage) {
+                    errorMessage.textContent = 'Kolom ini harus diisi'; // Tampilkan pesan error
+                    errorMessage.style.display = 'block'; // Tampilkan pesan error
+                }
+                input.classList.add('input-error'); // Tambahkan kelas error
+            } else {
+                // Validasi spesifik berdasarkan nama input
+                if (name.startsWith('email')) {
+                    if (!validateEmail(input.value)) {
+                        valid = false;
+                        if (errorMessage) {
+                            errorMessage.textContent = 'Harap masukkan alamat email yang valid'; // Tampilkan pesan error email
+                            errorMessage.style.display = 'block'; // Tampilkan pesan error
+                        }
+                        input.classList.add('input-error'); // Tambahkan kelas error
+                    } else {
+                        if (errorMessage) {
+                            errorMessage.textContent = ''; // Hapus pesan error
+                            errorMessage.style.display = 'none'; // Sembunyikan pesan error
+                        }
+                        input.classList.remove('input-error'); // Hapus kelas error
+                    }
+                } else if (name.startsWith('telepon')) {
+                    if (!validatePhoneNumber(input.value)) {
+                        valid = false;
+                        if (errorMessage) {
+                            errorMessage.textContent = 'Harap masukkan nomor telepon yang valid'; // Tampilkan pesan error telepon
+                            errorMessage.style.display = 'block'; // Tampilkan pesan error
+                        }
+                        input.classList.add('input-error'); // Tambahkan kelas error
+                    } else {
+                        if (errorMessage) {
+                            errorMessage.textContent = ''; // Hapus pesan error
+                            errorMessage.style.display = 'none'; // Sembunyikan pesan error
+                        }
+                        input.classList.remove('input-error'); // Hapus kelas error
+                    }
+                } else if (name.startsWith('pesan')) {
+                    if (!validateMessage(input.value)) {
+                        valid = false;
+                        if (errorMessage) {
+                            errorMessage.textContent = 'Pesan tidak boleh lebih dari 500 kata'; // Tampilkan pesan error pesan
+                            errorMessage.style.display = 'block'; // Tampilkan pesan error
+                        }
+                        input.classList.add('input-error'); // Tambahkan kelas error
+                    } else {
+                        if (errorMessage) {
+                            errorMessage.textContent = ''; // Hapus pesan error
+                            errorMessage.style.display = 'none'; // Sembunyikan pesan error
+                        }
+                        input.classList.remove('input-error'); // Hapus kelas error
+                    }
+                } else {
+                    if (errorMessage) {
+                        errorMessage.textContent = ''; // Hapus pesan error
+                        errorMessage.style.display = 'none'; // Sembunyikan pesan error
+                    }
+                    input.classList.remove('input-error'); // Hapus kelas error
+                }
+            }
+        });
+
+        return valid; // Kembalikan status validasi
+    }
+
+    // Validasi email menggunakan pola regex
+    function validateEmail(email) {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailPattern.test(email);
+    }
+
+    // Validasi nomor telepon menggunakan pola regex
+    function validatePhoneNumber(phoneNumber) {
+        const phonePattern = /^[0-9]{10,13}$/;
+        return phonePattern.test(phoneNumber);
+    }
+
+    // Validasi pesan untuk memastikan tidak lebih dari 500 kata
+    function validateMessage(message) {
+        const wordCount = message.split(/\s+/).filter(Boolean).length;
+        return wordCount <= 500;
+    }
+
+    // Tambahkan event listener ke semua formulir untuk validasi sebelum submit
+    document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', function(event) {
+            if (!validateForm(form)) {
+                event.preventDefault(); // Cegah pengiriman formulir jika tidak valid
+            }
+        });
+    });
+
+    // Tangani pengiriman formulir dengan memvalidasi dan menampilkan alert
+    function handleSubmit(form, successMessage, closeForm) {
+        if (validateForm(form)) {
+            showAlert(successMessage, 1000); // Tampilkan pesan sukses
+            closeForm.style.display = 'none'; // Sembunyikan formulir setelah pengiriman
+        }
+    }
+
+    // Tampilkan hasil BMI dan informasi terkait
+    function showResults(bmi, kategoriBMI, jenisKelamin, usia) {
+        hasilJenisKelamin.textContent = `Jenis Kelamin: ${jenisKelamin}`; // Tampilkan jenis kelamin
+        hasilUsia.textContent = `Usia: ${usia} tahun`; // Tampilkan usia
+        hasilBMI.textContent = `BMI: ${bmi.toFixed(2)}`; // Tampilkan nilai BMI dengan dua desimal
+        hasilStatus.textContent = `Kategori BMI: ${kategoriBMI.status}`; // Tampilkan status kategori BMI
+
+        bagianHasil.style.display = 'block'; // Tampilkan bagian hasil
+        kategoriInfoBMI.textContent = kategoriBMI.info.kategori; // Tampilkan kategori info BMI
+        infoBMI.textContent = kategoriBMI.info.deskripsi; // Tampilkan deskripsi info BMI
+
+        kategoriRisikoKesehatan.textContent = kategoriBMI.risiko.kategori; // Tampilkan kategori risiko kesehatan
+        risikoPenyakitList.innerHTML = kategoriBMI.risiko.penyakit.map(p => `<li>${p}</li>`).join(''); // Tampilkan daftar penyakit
+
+        bagianRisikoKesehatan.style.display = 'block'; // Tampilkan bagian risiko kesehatan
+
+        // Sembunyikan gambar kosong jika hasil ada
+        gambarKosongHasil.style.display = 'none';
+        gambarKosongInfo.style.display = 'none';
+        gambarKosongRisiko.style.display = 'none';
+    }
+
+    // Mendapatkan kategori BMI berdasarkan nilai BMI
+    function getKategoriBMI(bmi) {
+        if (bmi < 18.5) {
+            return {
+                status: 'Kekurangan Berat Badan',
+                info: {
+                    kategori: 'Kekurangan Berat Badan',
+                    deskripsi: 'Berat badan Anda kurang dari rentang ideal. Kekurangan berat badan bisa disebabkan oleh berbagai faktor, termasuk pola makan yang tidak memadai, masalah kesehatan, atau metabolisme yang tinggi. Kondisi ini dapat menyebabkan gangguan kesehatan seperti kekurangan energi, penurunan daya tahan tubuh, dan risiko osteoporosis. Penting untuk melakukan penilaian lebih lanjut dengan profesional medis atau ahli gizi untuk menentukan penyebab dan penanganan yang tepat.',
+                },
+                risiko: {
+                    kategori: 'Risiko Kesehatan Tinggi',
+                    penyakit: [
+                        'Kekurangan Gizi: Kekurangan berat badan sering kali disertai dengan kekurangan nutrisi penting yang dapat mempengaruhi fungsi tubuh secara keseluruhan.',
+                        'Osteoporosis: Kekurangan berat badan dapat meningkatkan risiko tulang menjadi rapuh dan mudah patah.',
+                        'Gangguan Imunitas: Sistem kekebalan tubuh dapat melemah, meningkatkan risiko infeksi dan penyakit.'
+                    ]
+                }
+            };
+        } else if (bmi >= 18.5 && bmi < 25) {
+            return {
+                status: 'Normal',
+                info: {
+                    kategori: 'Normal',
+                    deskripsi: 'Berat badan Anda berada dalam rentang ideal. Ini menunjukkan bahwa Anda memiliki keseimbangan yang baik antara asupan makanan dan aktivitas fisik. Mempertahankan berat badan normal dapat membantu Anda menjaga kesehatan secara keseluruhan dan mengurangi risiko penyakit kronis seperti diabetes, penyakit jantung, dan hipertensi. Teruskan gaya hidup sehat Anda untuk menjaga kondisi fisik dan mental yang optimal.',
+                },
+                risiko: {
+                    kategori: 'Risiko Kesehatan Rendah',
+                    penyakit: []
+                }
+            };
+        } else if (bmi >= 25 && bmi < 30) {
+            return {
+                status: 'Kelebihan Berat Badan',
+                info: {
+                    kategori: 'Kelebihan Berat Badan',
+                    deskripsi: 'Berat badan Anda melebihi rentang ideal, tetapi belum mencapai kategori obesitas. Kelebihan berat badan sering kali terkait dengan pola makan yang tidak sehat, kurangnya aktivitas fisik, atau faktor genetik. Kondisi ini dapat meningkatkan risiko beberapa masalah kesehatan, termasuk penyakit jantung, diabetes tipe 2, dan hipertensi. Menyusun rencana diet sehat dan rutinitas olahraga yang teratur dapat membantu dalam menurunkan berat badan dan memperbaiki kesehatan.',
+                },
+                risiko: {
+                    kategori: 'Risiko Kesehatan Menengah',
+                    penyakit: [
+                        'Diabetes Tipe 2: Kelebihan berat badan dapat menyebabkan resistensi insulin dan meningkatkan risiko diabetes.',
+                        'Hipertensi: Kelebihan berat badan dapat meningkatkan tekanan darah, memperburuk kesehatan jantung.'
+                    ]
+                }
+            };
+        } else {
+            return {
+                status: 'Obesitas',
+                info: {
+                    kategori: 'Obesitas',
+                    deskripsi: 'Berat badan Anda berada jauh di atas rentang ideal. Obesitas sering kali disebabkan oleh kombinasi faktor seperti pola makan yang tinggi kalori, kurangnya aktivitas fisik, dan predisposisi genetik. Obesitas dapat meningkatkan risiko berbagai masalah kesehatan serius seperti penyakit jantung, stroke, diabetes tipe 2, dan sleep apnea. Mengadopsi perubahan gaya hidup yang signifikan, seperti diet seimbang dan program latihan, serta konsultasi dengan ahli kesehatan dapat membantu dalam manajemen dan penurunan berat badan.',
+                },
+                risiko: {
+                    kategori: 'Risiko Kesehatan Tinggi',
+                    penyakit: [
+                        'Penyakit Jantung: Obesitas dapat menyebabkan penumpukan lemak di sekitar jantung dan meningkatkan risiko penyakit jantung.',
+                        'Stroke: Kelebihan berat badan dapat meningkatkan risiko pembekuan darah dan stroke.',
+                        'Sleep Apnea: Kelebihan berat badan dapat menyebabkan gangguan pernapasan saat tidur, yang dapat mempengaruhi kualitas tidur dan kesehatan secara keseluruhan.',
+                        'Kanker: Obesitas juga dapat meningkatkan risiko beberapa jenis kanker, seperti kanker payudara dan kanker usus besar.'
+                    ]
+                }
+            };
+        }
+    }
+    
+    // Event listener untuk pengiriman formulir BMI
+    formulir.addEventListener('submit', function(event) {
+        event.preventDefault(); // Cegah pengiriman formulir secara default
+
+        // Ambil data dari formulir
+        const jenisKelamin = document.querySelector('input[name="JenisKelamin"]:checked');
+        const beratBadan = parseFloat(document.getElementById('berat-badan').value);
+        const tinggiBadan = parseFloat(document.getElementById('tinggi').value) / 100;
         const usia = parseInt(document.getElementById('usia').value);
 
-        if (berat <= 0 || tinggi <= 0 || usia <= 0) {
-            alert('Masukkan nilai berat, tinggi, dan usia yang valid.');
+        // Validasi data input
+        if (!jenisKelamin || isNaN(beratBadan) || isNaN(tinggiBadan) || isNaN(usia) || tinggiBadan <= 0 || beratBadan <= 0) {
+            showAlert('Harap masukkan data yang valid.'); // Tampilkan pesan jika data tidak valid
             return;
         }
 
-        const bmi = (berat / (tinggi * tinggi)).toFixed(2);
+        // Hitung BMI dan ambil kategori BMI
+        const jenisKelaminValue = jenisKelamin.value;
+        const bmi = beratBadan / (tinggiBadan * tinggiBadan);
+        const kategoriBMI = getKategoriBMI(bmi);
 
-        JenisKelaminHasil.textContent = `Jenis Kelamin: ${JenisKelamin}`;
-        HasilUsia.textContent = `Usia: ${usia} tahun`;
-        HasilBmi.textContent = `BMI: ${bmi}`;
-        HasilStatus.textContent = `Status: ${gethasilstatus(bmi)}`;
-        BmiInfoKategori.textContent = getBmiInfoKategoriText(bmi);
-        BmiInfo.textContent = getBmiInfoText(bmi);
-        KategoriRisikoKesehatan.textContent = getKategoriRisikoKesehatanText(bmi);
-
-        updateRisikoKesehatan(bmi);
-
-        HasilSection.style.display = 'block';
-        RisikoKesehatanSection.style.display = (bmi >= 19) ? 'block' : 'none';
+        // Tampilkan hasil BMI dan informasi terkait
+        showResults(bmi, kategoriBMI, jenisKelaminValue, usia);
+        showAlert('Hasil BMI berhasil dihitung!', 1000); // Tampilkan pesan sukses
     });
 
-    function gethasilstatus(bmi) {
-        if (bmi < 19) {
-            return 'Kurus';
-        } else if (bmi >= 19 && bmi < 24.9) {
-            return 'Ideal';
-        } else if (bmi >= 25 && bmi < 29.9) {
-            return 'Gemuk';
-        } else {
-            return 'Obesitas';
-        }
-    }
-
-    function getBmiInfoKategoriText(bmi) {
-        if (bmi >= 23 && bmi < 25) {
-            return 'Hasil BMI diantara 23 dan 25';
-        } else if (bmi < 19) {
-            return 'Hasil BMI kurang dari 19 kurus';
-        } else if (bmi >= 19 && bmi < 23) {
-            return 'Anda berada dalam kategori ideal';
-        } else if (bmi >= 25 && bmi < 30) {
-            return 'Anda berada dalam kategori kelebihan berat badan (gemuk)';
-        } else {
-            return 'Anda berada dalam kategori obesitas';
-        }
-    }
-
-    function getBmiInfoText(bmi) {
-        if (bmi >= 23 && bmi < 25) {
-            return 'Anda berada dalam kategori overweight atau berat badan berlebih. Cara terbaik untuk menurunkan berat badan adalah dengan mengatur kalor makanan yang dikonsumsi dan berolahraga. Disarankan untuk mengurangi konsumsi makanan tinggi kalori, seperti makanan cepat saji dan minuman manis. Fokuskan pada konsumsi buah-buahan, sayuran, protein tanpa lemak, dan biji-bijian. Pastikan juga untuk melakukan latihan kardio dan latihan kekuatan secara rutin.';
-        } else if (bmi < 19) {
-            return 'Anda berada dalam kategori kurus. Disarankan untuk meningkatkan asupan kalori dan menambah berat badan hingga batas normal. Konsumsi makanan kaya kalori dan nutrisi seperti alpukat, kacang-kacangan, dan minyak sehat. Pertimbangkan untuk makan lebih sering dengan porsi yang lebih besar dan termasuk protein tinggi untuk mendukung pertumbuhan otot. Jangan lupa untuk melakukan latihan beban untuk membantu penambahan massa otot.';
-        } else if (bmi >= 19 && bmi < 23) {
-            return 'Anda berada dalam kategori ideal. Pertahankan pola makan dan gaya hidup sehat Anda. Pastikan untuk tetap mengonsumsi diet seimbang yang mencakup berbagai macam makanan dari semua kelompok makanan. Perhatikan ukuran porsi dan hindari makanan olahan serta gula tambahan. Tetap aktif dengan rutinitas olahraga reguler untuk menjaga kebugaran dan kesehatan tubuh.';
-        } else if (bmi >= 25 && bmi < 30) {
-            return 'Anda berada dalam kategori kelebihan berat badan (gemuk). Disarankan untuk menurunkan berat badan hingga batas normal. Kurangi konsumsi makanan tinggi lemak dan gula, seperti makanan ringan dan minuman manis. Fokus pada makanan rendah kalori, seperti sayuran, buah-buahan, dan protein tanpa lemak. Lakukan olahraga secara teratur, termasuk latihan kardio dan latihan kekuatan untuk membantu penurunan berat badan.';
-        } else {
-            return 'Anda berada dalam kategori obesitas. Disarankan untuk berkonsultasi dengan ahli gizi atau dokter untuk penanganan lebih lanjut. Rencanakan diet dengan bantuan profesional, fokus pada pengurangan asupan kalori dengan meningkatkan konsumsi sayuran, buah-buahan, dan protein rendah lemak. Latihan fisik yang teratur dan terencana dengan baik juga sangat penting. Pastikan untuk mengikuti panduan medis untuk mencapai dan mempertahankan berat badan sehat.';
-        }
-    }
-
-    function getKategoriRisikoKesehatanText(bmi) {
-        if (bmi >= 23 && bmi < 25) {
-            return 'Beberapa penyakit berasal dari overweight atau berat badan berlebih';
-        } else if (bmi < 19) {
-            return 'Beberapa penyakit berasal dari kurus';
-        } else if (bmi >= 19 && bmi < 23) {
-            return 'Beberapa penyakit berasal dari kategori ideal';
-        } else if (bmi >= 25 && bmi < 30) {
-            return 'Beberapa penyakit berasal dari gemuk';
-        } else {
-            return 'Beberapa penyakit berasal dari obesitas';
-        }
-    }
-
-    function updateRisikoKesehatan(bmi) {
-        let risks = [];
-        if (bmi < 19) {
-            risks = [
-                'Kekurangan Gizi',
-                'Anemia',
-                'Masalah Kesehatan Tulang'
-            ];
-        } else if (bmi >= 19 && bmi < 25) {
-            risks = [
-                'Risiko Kesehatan Rendah'
-            ];
-        } else if (bmi >= 25 && bmi < 30) {
-            risks = [
-                'Diabetes',
-                'Hipertensi',
-                'Sakit Jantung',
-                'Osteoarthritis'
-            ];
-        } else {
-            risks = [
-                'Diabetes',
-                'Hipertensi',
-                'Sakit Jantung',
-                'Osteoarthritis',
-                'Sleep Apnea',
-                'Kanker'
-            ];
-        }
-
-        RisikoPenyakitList.innerHTML = risks.map(risk => `<li>${risk}</li>`).join('');
-    }
-
-    function resetResults() {
-        JenisKelaminHasil.textContent = '';
-        HasilUsia.textContent = '';
-        HasilBmi.textContent = '';
-        HasilStatus.textContent = '';
-        BmiInfoKategori.textContent = '';
-        BmiInfo.textContent = '';
-        KategoriRisikoKesehatan.textContent = '';
-        RisikoPenyakitList.innerHTML = '';
+    // Event listener untuk tombol reset formulir BMI
+    document.getElementById('reset-btn').addEventListener('click', function() {
+        // Reset formulir BMI
+        formulir.reset();
     
-        const GambarKosongHasil = document.getElementById('GambarKosongHasil');
-        const GambarKosongInfo = document.getElementById('GambarKosongInfo');
-        const GambarKosongRisiko = document.getElementById('GambarKosongRisiko');
-
-        GambarKosongHasil.style.display = 'block';
-        GambarKosongInfo.style.display = 'block';
-        GambarKosongRisiko.style.display = 'block';
+        // Sembunyikan bagian hasil dan risiko kesehatan
+        bagianHasil.style.display = 'none';
+        bagianRisikoKesehatan.style.display = 'none';
     
-        HasilSection.style.display = 'none';
-        RisikoKesehatanSection.style.display = 'none';
-    }
+        // Tampilkan gambar kosong jika tidak ada hasil
+        gambarKosongHasil.style.display = 'block';
+        gambarKosongInfo.style.display = 'block';
+        gambarKosongRisiko.style.display = 'block';
     
-    ResetButton.addEventListener('click', function(event) {
-        event.preventDefault();
-        resetResults();
-    });
-
-    downloadBtn.addEventListener('click', function() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-
-        const JenisKelamin = document.querySelector('input[name="JenisKelamin"]:checked').value;
-        const berat = document.getElementById('BeratBadan').value;
-        const tinggi = document.getElementById('tinggi').value;
-        const usia = document.getElementById('usia').value;
-        const bmi = HasilBmi.textContent.split(': ')[1];
-        const status = HasilStatus.textContent.split(': ')[1];
-        const infoKategori = BmiInfoKategori.textContent;
-        const info = BmiInfo.textContent;
-
-        doc.text(`Jenis Kelamin: ${JenisKelamin}`, 10, 10);
-        doc.text(`Berat Badan: ${berat} kg`, 10, 20);
-        doc.text(`Tinggi Badan: ${tinggi} cm`, 10, 30);
-        doc.text(`Usia: ${usia} tahun`, 10, 40);
-        doc.text(`BMI: ${bmi}`, 10, 50);
-        doc.text(`Status: ${status}`, 10, 60);
-        doc.text(`Kategori: ${infoKategori}`, 10, 70);
-        doc.text(`Informasi: ${info}`, 10, 80);
-
-        doc.save('hasil_bmi.pdf');
-    });
-
-    konsultasiDokterBtn.addEventListener('click', function() {
-        const phoneNumber = '082142788621'; 
-        const message = encodeURIComponent('Halo, saya ingin berkonsultasi dengan dokter.');
-        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
-        window.open(whatsappUrl, '_blank');
-    });
-
-    konsultasiAhliGiziBtn.addEventListener('click', function() {
-        const phoneNumber = '082142788621';
-        const message = encodeURIComponent('Halo, saya ingin berkonsultasi dengan ahli gizi.');
-        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
-        window.open(whatsappUrl, '_blank');
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        // Ambil elemen tombol dan formulir
-        const showAhliGiziFormBtn = document.getElementById('showAhliGiziForm');
-        const showDokterFormBtn = document.getElementById('showDokterForm');
-        const ahliGiziForm = document.getElementById('AhliGiziForm');
-        const dokterForm = document.getElementById('DokterForm');
-    
-        // Event listener untuk tombol Ahli Gizi
-        showAhliGiziFormBtn.addEventListener('click', function() {
-            ahliGiziForm.style.display = 'block';
-            dokterForm.style.display = 'none';
-        });
-    
-        // Event listener untuk tombol Dokter
-        showDokterFormBtn.addEventListener('click', function() {
-            dokterForm.style.display = 'block';
-            ahliGiziForm.style.display = 'none';
-        });
-    
-        // Event listener untuk formulir BMI
-        const bmiForm = document.getElementById('BmiForm');
-        bmiForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            // Logika perhitungan BMI dan menampilkan hasil
-            const beratBadan = parseFloat(document.getElementById('BeratBadan').value);
-            const tinggi = parseFloat(document.getElementById('tinggi').value) / 100; // konversi ke meter
-            const bmi = beratBadan / (tinggi * tinggi);
-    
-            // Menampilkan hasil BMI
-            document.getElementById('HasilBmi').textContent = bmi.toFixed(2);
-            document.getElementById('HasilStatus').textContent = getBmiStatus(bmi);
-    
-            // Mengatur visibilitas elemen
-            document.getElementById('HasilSection').style.display = 'block';
-            document.querySelector('.Kalkulator').style.display = 'none';
-        });
-    
-        function getBmiStatus(bmi) {
-            if (bmi < 18.5) return 'Kekurangan berat badan';
-            if (bmi >= 18.5 && bmi < 24.9) return 'Berat badan normal';
-            if (bmi >= 25 && bmi < 29.9) return 'Kelebihan berat badan';
-            return 'Obesitas';
-        }
-    
-        // Event listener untuk tombol Reset
-        document.querySelector('.Reset-btn').addEventListener('click', function() {
-            bmiForm.reset();
-            document.getElementById('HasilSection').style.display = 'none';
-            document.querySelector('.Kalkulator').style.display = 'block';
-        });
-    });
-    
-
-    // Tampilkan formulir ahli gizi
-    showAhliGiziForm.addEventListener('click', function() {
-        ahliGiziForm.style.display = 'block';
-        dokterForm.style.display = 'none';
-    });
-
-    // Tampilkan formulir dokter
-    showDokterForm.addEventListener('click', function() {
-        dokterForm.style.display = 'block';
+        // Sembunyikan formulir ahli gizi dan dokter
         ahliGiziForm.style.display = 'none';
+        dokterForm.style.display = 'none';
+    
+        // Menampilkan elemen lain yang mungkin tersembunyi
+        document.getElementById('show-ahli-gizi-form').style.display = 'block';
+        document.getElementById('show-dokter-form').style.display = 'block';
+    
+        showAlert('Form telah direset!', 1000); // Tampilkan pesan reset
+    });
+    
+    // Event listener untuk menampilkan formulir ahli gizi
+    document.getElementById('show-ahli-gizi-form').addEventListener('click', function() {
+        ahliGiziForm.style.display = 'block';
     });
 
-    // Sembunyikan formulir secara default
-    ahliGiziForm.style.display = 'none';
-    dokterForm.style.display = 'none';
+    // Event listener untuk menampilkan formulir dokter
+    document.getElementById('show-dokter-form').addEventListener('click', function() {
+        dokterForm.style.display = 'block';
+    });
+
+    // Event listener untuk tombol penutup alert
+    closeBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            this.parentElement.style.display = 'none'; // Sembunyikan alert saat tombol close diklik
+        });
+    });
+
+    // Event listener untuk tombol kirim registrasi ahli gizi
+    kirimRegistrasiAhliGiziBtn?.addEventListener('click', function() {
+        const form = document.getElementById('registrasi-ahli-gizi-form');
+        handleSubmit(form, 'Registrasi ahli gizi telah dikirim.', ahliGiziForm);
+    });
+
+    // Event listener untuk tombol kirim registrasi dokter
+    kirimRegistrasiDokterBtn?.addEventListener('click', function() {
+        const form = document.getElementById('registrasi-dokter-form');
+        handleSubmit(form, 'Registrasi dokter telah dikirim.', dokterForm);
+    });
+
+    // Event listener untuk tombol download PDF
+    document.getElementById('download-btn')?.addEventListener('click', function() {
+        const { jsPDF } = window.jspdf; // Mengakses jsPDF dari global scope
+    
+        // Ambil data dari elemen yang relevan
+        const bmiText = document.getElementById('hasil-bmi')?.textContent?.split(': ')[1];
+        const statusText = document.getElementById('hasil-status')?.textContent?.split(': ')[1];
+        const kategori = document.getElementById('bmi-info-kategori')?.textContent;
+        const deskripsi = document.getElementById('bmi-info')?.textContent;
+        const risikoKategori = document.getElementById('kategori-risiko-kesehatan')?.textContent;
+        const penyakitList = document.getElementById('risiko-penyakit-list')?.children;
+        const jenisKelamin = document.getElementById('jenis-kelamin-hasil')?.textContent?.split(': ')[1];
+        const usiaText = document.getElementById('hasil-usia')?.textContent?.split(': ')[1];
+    
+        // Validasi jika hasil BMI belum tersedia
+        if (!bmiText || !statusText || !kategori || !deskripsi || !risikoKategori || !penyakitList.length || !jenisKelamin || !usiaText) {
+            showAlert('Hasil kalkulasi BMI belum tersedia. Silakan lakukan kalkulasi terlebih dahulu.');
+            return;
+        }
+    
+        // Siapkan data untuk diunduh dalam format PDF
+        const bmi = parseFloat(bmiText);
+        const usia = parseInt(usiaText);
+        const risks = Array.from(penyakitList).map(li => li.textContent).join(', ');
+    
+        const doc = new jsPDF(); // Membuat objek jsPDF baru
+        doc.text(`Jenis Kelamin: ${jenisKelamin}`, 10, 10);
+        doc.text(`Usia: ${usia}`, 10, 20);
+        doc.text(`BMI: ${bmi}`, 10, 30);
+        doc.text(`Status: ${statusText}`, 10, 40);
+        doc.text(`Kategori BMI: ${kategori}`, 10, 50);
+        doc.text(`Deskripsi: ${deskripsi}`, 10, 60);
+        doc.text(`Kategori Risiko Kesehatan: ${risikoKategori}`, 10, 70);
+        doc.text(`Penyakit Terkait: ${risks}`, 10, 80);
+    
+        doc.save('hasil-bmi.pdf'); // Unduh PDF
+    });
+    
+    const waDokterUrl = "https://wa.me/+6282142788621?text=" + encodeURIComponent("Halo dokter, saya ingin konsultasi.");
+
+    // URL WhatsApp untuk konsultasi ahli gizi
+    const waGiziUrl = "https://wa.me/6282142788621?text=" + encodeURIComponent("Halo ahli gizi, saya ingin konsultasi.");
+
+    // Menambahkan event listener ke tombol Konsultasi Dokter
+    document.querySelector('.konsultasi-dokter-btn').addEventListener('click', function() {
+        window.open(waDokterUrl, '_blank');
+    });
+
+    // Menambahkan event listener ke tombol Konsultasi Ahli Gizi
+    document.querySelector('.konsultasi-btn').addEventListener('click', function() {
+        window.open(waGiziUrl, '_blank');
+    });
 });
+
